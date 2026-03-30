@@ -2,14 +2,21 @@
 # -*- coding: utf-8 -*-
 
 import smtplib
+import os
 from email.mime.text import MIMEText
 from email.header import Header
 from datetime import datetime
 
 # メール設定
 TO_ADDRESS = "pubsky@outlook.jp"
-FROM_ADDRESS = "noreply@localhost"
+FROM_ADDRESS = "pubsky@outlook.jp"
 SUBJECT = "【週次ニュースまとめ】2026/03/23〜2026/03/29"
+
+# SMTP設定（環境変数優先、なければデフォルト値）
+SMTP_HOST = "smtp-mail.outlook.com"
+SMTP_PORT = 587
+SMTP_USER = os.environ.get("SMTP_USER", "pubsky@outlook.jp")
+SMTP_PASS = os.environ.get("SMTP_PASS", "")
 
 BODY = """今週の主要ニュースをお届けします。
 
@@ -41,50 +48,36 @@ BODY = """今週の主要ニュースをお届けします。
 このメールはClaude Codeによって自動生成されました。
 """
 
-def send_email_localhost():
-    """ローカルSMTP (port 25) でメール送信を試みる"""
+
+def send_email(label=""):
+    """Outlook SMTP経由でメール送信"""
+    password = SMTP_PASS or os.environ.get("SMTP_PASS", "")
+    if not password:
+        print("[エラー] SMTP_PASS 環境変数が設定されていません")
+        return False
+
     msg = MIMEText(BODY, 'plain', 'utf-8')
     msg['Subject'] = Header(SUBJECT, 'utf-8')
     msg['From'] = FROM_ADDRESS
     msg['To'] = TO_ADDRESS
 
     try:
-        with smtplib.SMTP('localhost', 25, timeout=10) as server:
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=30) as server:
+            server.ehlo()
+            server.starttls()
+            server.ehlo()
+            server.login(SMTP_USER, password)
             server.sendmail(FROM_ADDRESS, [TO_ADDRESS], msg.as_string())
-        print(f"[成功] メールをlocalhostのSMTP経由で送信しました")
-        print(f"送信先: {TO_ADDRESS}")
-        print(f"件名: {SUBJECT}")
-        print(f"送信日時: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        print(f"[成功]{' ' + label if label else ''} {ts} → {TO_ADDRESS}")
         return True
     except Exception as e:
-        print(f"[失敗] localhost SMTP: {e}")
+        ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        print(f"[失敗]{' ' + label if label else ''} {ts} : {e}")
         return False
 
+
 if __name__ == "__main__":
-    print("=== 週次ニュースまとめメール送信 ===")
-    print(f"送信先: {TO_ADDRESS}")
-    print(f"件名: {SUBJECT}")
-    print()
-    print("--- メール本文プレビュー ---")
-    print(BODY)
-    print("---------------------------")
-    print()
-
-    # 方法B: ローカルSMTPを試みる
-    success = send_email_localhost()
-
-    if not success:
-        print()
-        print("[情報] ローカルSMTPサーバーが利用できません。")
-        print("外部SMTPサーバー（Gmail等）を使用する場合は、以下の認証情報が必要です：")
-        print("  - SMTPサーバー: smtp.gmail.com:587")
-        print("  - ユーザー名: Gmailアドレス")
-        print("  - パスワード: アプリパスワード")
-        print()
-        print("または以下のコマンドでメール本文をファイルに保存しました：")
-        with open('/home/user/claude-test/email_body.txt', 'w', encoding='utf-8') as f:
-            f.write(f"To: {TO_ADDRESS}\n")
-            f.write(f"Subject: {SUBJECT}\n")
-            f.write(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
-            f.write(BODY)
-        print("  /home/user/claude-test/email_body.txt")
+    import sys
+    label = sys.argv[1] if len(sys.argv) > 1 else ""
+    send_email(label)
