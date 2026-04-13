@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>週次ブリーフィング 2026/04/13</title>
+<style>
+  :root {
+    --P: #2563eb; --E: #16a34a; --S: #ea580c;
+    --T: #7c3aed; --H: #db2777; --N: #0891b2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
+         background: #f8fafc; color: #1e293b; font-size: 14px; line-height: 1.7; }
+  .wrapper { max-width: 860px; margin: 0 auto; padding: 20px; }
+
+  /* Header */
+  .header { background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white; padding: 24px; border-radius: 12px; margin-bottom: 20px; }
+  .header h1 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .header .meta { font-size: 12px; color: #94a3b8; }
+
+  /* Legend */
+  .legend { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;
+            background: white; padding: 12px 16px; border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  .badge { display: inline-flex; align-items: center; gap: 4px;
+           padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;
+           color: white; }
+  .badge.P { background: var(--P); } .badge.E { background: var(--E); }
+  .badge.S { background: var(--S); } .badge.T { background: var(--T); }
+  .badge.H { background: var(--H); } .badge.N { background: var(--N); }
+
+  /* Timeline Section */
+  .section { background: white; border-radius: 12px; margin-bottom: 16px;
+             box-shadow: 0 1px 3px rgba(0,0,0,.08); overflow: hidden; }
+  .section-header { display: flex; align-items: center; justify-content: space-between;
+                    padding: 14px 20px; cursor: pointer; user-select: none;
+                    background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+  .section-header:hover { background: #f1f5f9; }
+  .section-title { font-size: 15px; font-weight: 700; }
+  .section-period { font-size: 12px; color: #64748b; }
+  .toggle-icon { font-size: 18px; transition: transform .25s; color: #64748b; }
+  .section-body { padding: 0 20px; max-height: 0; overflow: hidden;
+                  transition: max-height .35s ease, padding .2s; }
+  .section-body.open { max-height: 2000px; padding: 16px 20px; }
+
+  /* News Items */
+  .news-item { display: flex; align-items: flex-start; gap: 10px;
+               padding: 8px 0; border-bottom: 1px solid #f1f5f9; }
+  .news-item:last-child { border-bottom: none; }
+  .news-text { flex: 1; font-size: 13.5px; }
+  .news-label { font-size: 11px; color: #64748b; margin-top: 2px; }
+
+  /* Special Section */
+  .special { border-left: 4px solid #f59e0b; }
+  .special .section-header { background: #fffbeb; border-color: #fde68a; }
+  .ai-special { border-left: 4px solid #8b5cf6; }
+  .ai-special .section-header { background: #f5f3ff; border-color: #ddd6fe; }
+  .sns-special { border-left: 4px solid #0ea5e9; }
+  .sns-special .section-header { background: #f0f9ff; border-color: #bae6fd; }
+
+  /* Core / Detail */
+  .core-tag { background: #fef3c7; color: #92400e; font-size: 11px;
+              font-weight: 600; padding: 2px 6px; border-radius: 4px; }
+  .detail-tag { background: #e0f2fe; color: #075985; font-size: 11px;
+                font-weight: 600; padding: 2px 6px; border-radius: 4px; }
+
+  /* SNS Platform */
+  .sns-row { display: grid; grid-template-columns: 60px 1fr; gap: 8px;
+             padding: 7px 0; border-bottom: 1px solid #f1f5f9; align-items: start; }
+  .sns-row:last-child { border-bottom: none; }
+  .sns-name { font-size: 11px; font-weight: 700; padding: 3px 6px;
+              border-radius: 4px; text-align: center; color: white; }
+  .sns-x    { background: #000; }
+  .sns-ig   { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); }
+  .sns-tt   { background: #010101; }
+  .sns-yt   { background: #ff0000; }
+  .sns-th   { background: #000; }
+
+  /* Risk Matrix */
+  .risk-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .risk-table th { background: #f8fafc; padding: 8px 12px; text-align: left;
+                   border-bottom: 2px solid #e2e8f0; font-weight: 600; }
+  .risk-table td { padding: 8px 12px; border-bottom: 1px solid #f1f5f9; }
+  .dot-h { color: #dc2626; font-size: 16px; }
+  .dot-m { color: #f59e0b; font-size: 16px; }
+  .dot-l { color: #22c55e; font-size: 16px; }
+
+  /* Footer */
+  .footer { text-align: center; color: #94a3b8; font-size: 12px; margin-top: 24px; padding: 16px; }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="meta">Claude Code 自動生成 | 毎週月曜・金曜 6:00</div>
+    <h1>【週次ブリーフィング・週はじめ版】2026/04/13</h1>
+    <div class="meta">週次〜100年 × PEST+H+N ｜ 配信先: pubsky@outlook.jp / iam11111234yoshi@gmail.com</div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <span class="badge P">P 政治・外交</span>
+    <span class="badge E">E 経済・ビジネス</span>
+    <span class="badge S">S 社会・生活</span>
+    <span class="badge T">T テクノロジー</span>
+    <span class="badge H">H 人間・文化</span>
+    <span class="badge N">N 自然・気象</span>
+  </div>
+
+  <!-- 週次 -->
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div>
+        <span class="section-title">▶ 週次</span>
+        <span class="section-period">　2026/04/07〜04/13</span>
+      </div>
+      <span class="toggle-icon">＋</span>
+    </div>
+    <div class="section-body open">
+      <div class="news-item">
+        <span class="badge P">P</span>
+        <div><div class="news-text">2026年度本予算が4/7に成立——4月成立は11年ぶり。暫定予算11日間を経て正式予算へ移行</div></div>
+      </div>
+      <div class="news-item">
+        <span class="badge E">E</span>
+        <div><div class="news-text">長期金利が一時2.49%に上昇——1999年2月以来の高水準。財政・円安・インフレ懸念が重なる</div></div>
+      </div>
+      <div class="news-item">
+        <span class="badge E">E</span>
+        <div><div class="news-text">WTI原油が一時105ドル台——中東情勢緊迫継続。ガソリン・電力コスト高止まり</div></div>
+      </div>
+      <div class="news-item">
+        <span class="badge P">P</span>
+        <div><div class="news-text">小笠原村が核のごみ・文献調査を事実上容認——首都圏初。エネルギー政策をめぐる国内議論に波紋</div></div>
+      </div>
+      <div class="news-item">
+        <span class="badge H">H</span>
+        <div><div class="news-text">是枝・濱口・深田の3監督がカンヌ映画祭最高賞候補に——日本映画が異例の3名競合</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 月次 -->
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div>
+        <span class="section-title">▶ 月次</span>
+        <span class="section-period">　2026/03/14〜04/13</span>
+      </div>
+      <span class="toggle-icon">＋</span>
+    </div>
+    <div class="section-body">
+      <div class="news-item"><span class="badge P">P</span><div class="news-text">2026年度予算が年度越え後に成立——高市政権の予算戦略が一区切り</div></div>
+      <div class="news-item"><span class="badge E">E</span><div class="news-text">春闘2026最終：連合の賃上げ率5.12%、中小も5.03%——大企業との格差縮小が進む</div></div>
+      <div class="news-item"><span class="badge T">T</span><div class="news-text">Sakana AIが日本仕様LLM「Namazu（ナマズ）」α版を公開——国産AI自立化への第一歩</div></div>
+      <div class="news-item"><span class="badge H">H</span><div class="news-text">WBC2026：ベネズエラが悲願の初優勝。日本は準々決勝で敗退・連覇ならず</div></div>
+      <div class="news-item"><span class="badge N">N</span><div class="news-text">東京・名古屋で桜が平年より5日早く開花——気候変動進行を示すシグナル</div></div>
+    </div>
+  </div>
+
+  <!-- 半年 -->
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div><span class="section-title">▶ 半年</span><span class="section-period">　2025/10〜2026/04</span></div>
+      <span class="toggle-icon">＋</span>
+    </div>
+    <div class="section-body">
+      <div class="news-item"><span class="badge P">P</span><div class="news-text">2月衆院選で自民党が316議席を獲得・大勝——高市政権が安定多数を確保</div></div>
+      <div class="news-item"><span class="badge E">E</span><div class="news-text">日経平均が2/27に過去最高値58,850円→イラン攻撃で急落し52,000円台へ</div></div>
+      <div class="news-item"><span class="badge P">P</span><div class="news-text">米・イスラエルがイラン攻撃（2/28）——中東情勢一変、エネルギー・外交に広範な影響</div></div>
+      <div class="news-item"><span class="badge T">T</span><div class="news-text">OpenAI Sora終了・「Operator」本格展開——生成AIが「行動するAI（エージェント）」へ転換</div></div>
+      <div class="news-item"><span class="badge S">S</span><div class="news-text">ソニー・ホンダEV「AFEELA」開発中止（3/25）——EV逆風とホンダ戦略転換が直撃</div></div>
+    </div>
+  </div>
+
+  <!-- 1年 -->
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div><span class="section-title">▶ 1年</span><span class="section-period">　2025/04〜2026/04</span></div>
+      <span class="toggle-icon">＋</span>
+    </div>
+    <div class="section-body">
+      <div class="news-item"><span class="badge P">P</span><div class="news-text">高市早苗首相就任（2025年10月）——日本初の女性首相。経済安保・積極財政路線へ</div></div>
+      <div class="news-item"><span class="badge P">P</span><div class="news-text">2025年7月参院選で自公大敗・日本維新の会との新連立政権が発足</div></div>
+      <div class="news-item"><span class="badge E">E</span><div class="news-text">トランプ高関税——日本は80兆円の対米投資＋自動車開放で合意、通商戦争を回避</div></div>
+      <div class="news-item"><span class="badge T">T</span><div class="news-text">人工知能基本計画を閣議決定（2025年12月）——「信頼できるAI」を国家戦略の柱に</div></div>
+      <div class="news-item"><span class="badge N">N</span><div class="news-text">2025年夏の記録的猛暑——東京で40℃超が5日間、熱中症死者数が過去最多を更新</div></div>
+    </div>
+  </div>
+
+  <!-- 3〜100年 -->
+  <div class="section">
+    <div class="section-header" onclick="toggle(this)">
+      <div><span class="section-title">▶ 3〜100年（大きな潮流）</span><span class="section-period">　2023〜1926</span></div>
+      <span class="toggle-icon">＋</span>
+    </div>
+    <div class="section-body">
+      <table style="width:100%;border-collapse:collapse;font-size:13px;">
+        <tr style="background:#f8fafc"><th style="padding:6px 10px;text-align:left;border-bottom:2px solid #e2e8f0">期間</th><th style="padding:6px 10px;text-align:left;border-bottom:2px solid #e2e8f0">主要潮流</th></tr>
+        <tr><td style="padding:7px 10px;color:#64748b;font-weight:600;border-bottom:1px solid #f1f5f9">3年</td><td style="padding:7px 10px;border-bottom:1px solid #f1f5f9">自民党裏金問題で岸田政権崩壊 / 日銀マイナス金利解除・利上げ / 能登半島地震 / 大阪万博</td></tr>
+        <tr><td style="padding:7px 10px;color:#64748b;font-weight:600;border-bottom:1px solid #f1f5f9">5年</td><td style="padding:7px 10px;border-bottom:1px solid #f1f5f9">コロナ禍がDX・AI導入を加速 / 米中技術覇権競争の本格化 / インフレ・金利上昇時代への回帰</td></tr>
+        <tr><td style="padding:7px 10px;color:#64748b;font-weight:600;border-bottom:1px solid #f1f5f9">10年</td><td style="padding:7px 10px;border-bottom:1px solid #f1f5f9">ポピュリズムの台頭（トランプ・Brexit等） / スマートフォン社会の完成とAI革命 / 格差拡大・中産階級の空洞化</td></tr>
+        <tr><td style="padding:7px 10px;color:#64748b;font-weight:600;border-bottom:1px solid #f1f5f9">20年</td><td style="padding:7px 10px;border-bottom:1px solid #f1f5f9">iPhone登場→SNS・プラットフォーム経済が誕生 / リーマンショック後の超低金利20年が今まさに終焉 / 民主主義の危機・フェイクニュース問題</td></tr>
+        <tr><td style="padding:7px 10px;color:#64748b;font-weight:600;border-bottom:1px solid #f1f5f9">30年</td><td style="padding:7px 10px;border-bottom:1px solid #f1f5f9">インターネット革命とグローバル化 / 阪神淡路・東日本大震災が防災を変えた / 中国の台頭とアジアのパワーシフト</td></tr>
+        <tr><td style="padding:7px 10px;color:#64748b;font-weight:600;border-bottom:1px solid #f1f5f9">50年</td><td style="padding:7px 10px;border-bottom:1px solid #f1f5f9">冷戦終結・ソ連崩壊（1991）と新秩序の模索 / 新自由主義の台頭——規制緩和・民営化・グローバル化 / デジタル革命の始まり（PC登場）</td></tr>
+        <tr><td style="padding:7px 10px;color:#64748b;font-weight:600">100年</td><td style="padding:7px 10px">第二次世界大戦と戦後秩序——今まさに問い直し中 / 民主主義の拡大と後退 / 高度成長・バブル・失われた30年——日本経済の原点</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- エネルギー特別枠 -->
+  <div class="section special">
+    <div class="section-header" onclick="toggle(this)">
+      <div><span class="section-title">⛽ 特別枠：エネルギー・石油業界</span></div>
+      <span class="toggle-icon">＋</span>
+    </div>
+    <div class="section-body">
+      <p style="margin-bottom:10px;font-weight:600;font-size:13px;">【コアニュース】</p>
+      <div class="news-item"><span class="core-tag">コア</span><div class="news-text" style="margin-left:8px">WTI原油が一時105ドル台——イラン攻撃後の中東緊張継続。ガソリン・電力コストの高止まり継続</div></div>
+      <div class="news-item"><span class="core-tag">コア</span><div class="news-text" style="margin-left:8px">OPEC+が4月に日量20.6万バレルの増産調整——需給緩和を目指すも中東リスクが相殺</div></div>
+      <hr style="border:none;border-top:1px dashed #fde68a;margin:12px 0">
+      <p style="margin-bottom:10px;font-weight:600;font-size:13px;">【詳細】</p>
+      <div class="news-item"><span class="detail-tag">詳細</span><div class="news-text" style="margin-left:8px">ブレント原油の2026年平均は96ドル/バレルとEIA予測、下振れリスク大</div></div>
+      <div class="news-item"><span class="detail-tag">詳細</span><div class="news-text" style="margin-left:8px">ホルムズ海峡封鎖リスク継続——日本の原油輸入の約8割が中東経由</div></div>
+      <div class="news-item"><span class="detail-tag">詳細</span><div class="news-text" style="margin-left:8px">日本政府が石油備蓄放出——IEAと協調して国際的な需給安定に参加</div></div>
+      <div class="news-item"><span class="detail-tag">詳細</span><div class="news-text" style="margin-left:8px">ガソリン補助金が延長継続——家計負担軽減策が財政を圧迫</div></div>
+      <div class="news-item"><span class="detail-tag">詳細</span><div class="news-text" style="margin-left:8px">ENEOS・出光など国内元売り各社が在庫管理・調達多様化を加速</div></div>
+      <div class="news-item"><span class="detail-tag">詳細</span><div class="news-text" style="margin-left:8px">再エネ比率が2026年度に25%超えへ——太陽光・洋上風力の導入加速</div></div>
+      <div class="news-item"><span class="detail-tag">詳細</span><div class="news-text" style="margin-left:8px">水素社会実現に向けたインフラ整備が本格化——政府が官民投資を後押し</div></div>
+      <div class="news-item"><span class="detail-tag">詳細</span><div class="news-text" style="margin-left:8px">原発の運転延長容認が続く——テロ対策施設設置期限設定で再稼働スケジュールに影響</div></div>
+      <div class="news-item"><span class="detail-tag">詳細</span><div class="news-text" style="margin-left:8px">LNG調達の多様化——豪・米・カタールとの長期契約を見直し中</div></div>
+      <div class="news-item"><span class="detail-tag">詳細</span><div class="news-text" style="margin-left:8px">東南アジア諸国が日本にエネルギー支援を要請——中東依存脱却で連携模索</div></div>
+    </div>
+  </div>
+
+  <!-- AI特別枠 -->
+  <div class="section ai-special">
+    <div class="section-header" onclick="toggle(this)">
+      <div><span class="section-title">🤖 特別枠：AI業界</span></div>
+      <span class="toggle-icon">＋</span>
+    </div>
+    <div class="section-body">
+      <p style="margin-bottom:10px;font-weight:600;font-size:13px;">【コアニュース】</p>
+      <div class="news-item"><span class="core-tag">コア</span><div class="news-text" style="margin-left:8px">Claude Opus 4.6 / Sonnet 4.6、GPT-5.4、Gemini 3.1 Proが競合——モデル性能競争が加速の一途</div></div>
+      <div class="news-item"><span class="core-tag">コア</span><div class="news-text" style="margin-left:8px">OpenAI「Operator」が本格展開——ブラウザ自動操作で買い物・予約・フォーム入力まで代行するAIエージェント</div></div>
+      <hr style="border:none;border-top:1px dashed #ddd6fe;margin:12px 0">
+      <p style="margin-bottom:10px;font-weight:600;font-size:13px;">【詳細】</p>
+      <div class="news-item"><span class="detail-tag">詳細</span><div class="news-text" style="margin-left:8px">Sakana AI「Namazu」α版公開（3/24）——DeepSeek-V3.1ベースの日本仕様LLM</div></div>
+      <div class="news-item"><span class="detail-tag">詳細</span><div class="news-text" style="margin-left:8px">Xが3/30から日本語投稿を英語に自動翻訳・米国配信——想定外の国際バイラル拡散が続出</div></div>
+      <div class="news-item"><span class="detail-tag">詳細</span><div class="news-text" style="margin-left:8px">Wikipediaが記事作成へのAI利用を原則禁止——品質・信頼性維持のため</div></div>
+      <div class="news-item"><span class="detail-tag">詳細</span><div class="news-text" style="margin-left:8px">ファミリーマートが全国1.64万店に生成AI実務導入——小売業のAI活用が本格化</div></div>
+      <div class="news-item"><span class="detail-tag">詳細</span><div class="news-text" style="margin-left:8px">AI雇用代替がホワイトカラーに本格波及——米国でコールセンター・法務・コーディング職で削減加速</div></div>
+      <div class="news-item"><span class="detail-tag">詳細</span><div class="news-text" style="margin-left:8px">政府AI基本計画の官民投資ロードマップが2026年春に取りまとめ予定</div></div>
+      <div class="news-item"><span class="detail-tag">詳細</span><div class="news-text" style="margin-left:8px">「AI 2026年問題」——高品質学習データの枯渇が日本語LLMにより深刻な影響</div></div>
+      <div class="news-item"><span class="detail-tag">詳細</span><div class="news-text" style="margin-left:8px">マルチエージェントAI（A2A・MCP）の実用化——エージェント同士が協調するシステムが始動</div></div>
+      <div class="news-item"><span class="detail-tag">詳細</span><div class="news-text" style="margin-left:8px">EY調査：政府機関の62%がAI導入の障壁に「データプライバシー」を挙げる</div></div>
+      <div class="news-item"><span class="detail-tag">詳細</span><div class="news-text" style="margin-left:8px">IDC Japan：日本のAI市場2024年1.34兆円→2029年4.19兆円予測（5年で3倍）</div></div>
+    </div>
+  </div>
+
+  <!-- SNSトレンド -->
+  <div class="section sns-special">
+    <div class="section-header" onclick="toggle(this)">
+      <div><span class="section-title">📱 SNSトレンド（2026/04/07〜04/13）</span></div>
+      <span class="toggle-icon">＋</span>
+    </div>
+    <div class="section-body">
+      <div class="sns-row"><span class="sns-name sns-x">X</span><div>ラブライブシリーズのAI生成疑惑イラストが大炎上——ファン・クリエイター間で賛否が激突</div></div>
+      <div class="sns-row"><span class="sns-name sns-x">X</span><div>新幹線グリーン車マナー動画が炎上——3歳児を注意された親の逆ギレ投稿が拡散</div></div>
+      <div class="sns-row"><span class="sns-name sns-x">X</span><div>X日本語投稿が英語圏に自動配信——3/30仕様変更で想定外の国際拡散・プライバシー懸念が続出</div></div>
+      <div class="sns-row"><span class="sns-name sns-ig">IG</span><div>カンヌ映画祭3監督ノミネート——是枝・濱口・深田監督への称賛投稿が拡散、日本映画ルネサンスの声</div></div>
+      <div class="sns-row"><span class="sns-name sns-tt">TT</span><div>新幹線マナー動画がTikTokにも飛び火——「子連れ旅行マナー」タグがバイラル化、海外でも拡散</div></div>
+      <div class="sns-row"><span class="sns-name sns-yt">YT</span><div>WBC2026・ベネズエラ優勝ハイライトが急上昇——侍ジャパン振り返り・名場面集も高再生</div></div>
+      <div class="sns-row"><span class="sns-name sns-yt">YT</span><div>「2026年度予算成立まとめ」解説動画——財政・経済系チャンネルが一斉に解説動画を投稿</div></div>
+      <div class="sns-row"><span class="sns-name sns-th">TH</span><div>中山美穂さんの長男が20億円相続放棄——賛否両論の反応がThreadsで活発に展開</div></div>
+      <div class="sns-row"><span class="sns-name sns-th">TH</span><div>核のごみ小笠原村問題——「首都圏初」の衝撃が拡散。原発・エネルギー政策論争に発展</div></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    Claude Code 自動生成（claude-sonnet-4-6） | 毎週月曜・金曜 朝6:00<br>
+    配信先：pubsky@outlook.jp / iam11111234yoshi@gmail.com<br>
+    情報は収集時点のものです。詳細は各一次情報源をご確認ください。
+  </div>
+
+</div>
+
+<script>
+function toggle(header) {
+  const body = header.nextElementSibling;
+  const icon = header.querySelector('.toggle-icon');
+  const isOpen = body.classList.toggle('open');
+  icon.textContent = isOpen ? '－' : '＋';
+  icon.style.transform = isOpen ? 'rotate(0deg)' : '';
+}
+// 週次は最初から開く
+document.querySelectorAll('.section-body.open').forEach(b => {
+  b.closest('.section').querySelector('.toggle-icon').textContent = '－';
+});
+</script>
+</body>
+</html>

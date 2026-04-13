@@ -1,83 +1,104 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+"""
+週次ニュースブリーフィング メール送信スクリプト
+- 送信元: pubsky@outlook.jp
+- 送信先: pubsky@outlook.jp, iam11111234yoshi@gmail.com
+- SMTP: smtp-mail.outlook.com:587
+- パスワード: 環境変数 SMTP_PASS から取得
+"""
 
 import smtplib
 import os
+import sys
+from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
 from email.header import Header
 from datetime import datetime
 
-# メール設定
-TO_ADDRESS = "pubsky@outlook.jp"
-FROM_ADDRESS = "pubsky@outlook.jp"
-SUBJECT = "【週次ニュースまとめ】2026/03/23〜2026/03/29"
-
-# SMTP設定（環境変数優先、なければデフォルト値）
 SMTP_HOST = "smtp-mail.outlook.com"
 SMTP_PORT = 587
-SMTP_USER = os.environ.get("SMTP_USER", "pubsky@outlook.jp")
-SMTP_PASS = os.environ.get("SMTP_PASS", "")
+FROM_ADDRESS = "pubsky@outlook.jp"
+TO_ADDRESSES = ["pubsky@outlook.jp", "iam11111234yoshi@gmail.com"]
 
-BODY = """今週の主要ニュースをお届けします。
-
-🏛️ 政治・行政
-・2026年度予算案が年度内成立できず、政府が11日間の暫定予算案（総額約8.6兆円）を閣議決定
-・高市首相が訪米しトランプ大統領と初の日米首脳会談、中東情勢・通商・安全保障を協議
-
-💴 経済・ビジネス
-・春闘2026：連合の賃上げ率は加重平均5.26%、7年連続で5%台維持の公算
-・日銀が政策金利を0.75%に据え置き、ドル円は159円台まで円安が進行。日経平均は52,000円台で推移
-
-🌍 国際・外交
-・日米首脳会談でトランプ大統領が真珠湾に言及、各国メディアで大きく報道
-・海上自衛隊の護衛艦「ちょうかい」が米国でトマホーク搭載改修を完了、9月に帰国予定
-
-📱 社会・生活
-・漫画家・つげ義春さんが3月3日に88歳で死去（27日に発表）。『ねじ式』『無能の人』などの代表作で知られる
-・東京・名古屋で桜が平年より早く開花。DV相談が98,000件と過去最多を更新
-
-🤖 テクノロジー
-・東京発AIスタートアップ「Sakana AI」が日本仕様LLM「Namazu（ナマズ）」α版と無料チャットサービスを公開
-・OpenAIが動画生成AIサービス「Sora」の全面終了を発表。リリースからわずか半年での撤退
-
-⚾ スポーツ
-・大相撲春場所：霧島が3度目の優勝で大関返り咲きを達成（3月25日）
-・第6回WBC開幕、侍ジャパンが連覇を目指して出場。世界フィギュア選手権も3月25日開幕
-
----
-このメールはClaude Codeによって自動生成されました。
-"""
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-def send_email(label=""):
-    """Outlook SMTP経由でメール送信"""
-    password = SMTP_PASS or os.environ.get("SMTP_PASS", "")
-    if not password:
-        print("[エラー] SMTP_PASS 環境変数が設定されていません")
+def get_files(date_str):
+    """対象日付のtxt/htmlファイルパスを返す"""
+    txt = os.path.join(BASE_DIR, f"briefing_{date_str}.txt")
+    html = os.path.join(BASE_DIR, f"briefing_{date_str}.html")
+    return txt, html
+
+
+def build_subject(txt_path):
+    """txtファイルの1行目から件名を取得"""
+    try:
+        with open(txt_path, encoding="utf-8") as f:
+            first = f.readline().strip()
+        if first.startswith("件名："):
+            return first[3:]
+    except Exception:
+        pass
+    return f"【週次ブリーフィング】{datetime.now().strftime('%Y/%m/%d')}"
+
+
+def send(date_str, password, label=""):
+    txt_path, html_path = get_files(date_str)
+
+    if not os.path.exists(txt_path):
+        print(f"[エラー] テキストファイルが見つかりません: {txt_path}")
         return False
 
-    msg = MIMEText(BODY, 'plain', 'utf-8')
-    msg['Subject'] = Header(SUBJECT, 'utf-8')
-    msg['From'] = FROM_ADDRESS
-    msg['To'] = TO_ADDRESS
+    subject = build_subject(txt_path)
+
+    with open(txt_path, encoding="utf-8") as f:
+        body_text = f.read()
+
+    msg = MIMEMultipart("mixed")
+    msg["Subject"] = Header(subject, "utf-8")
+    msg["From"] = FROM_ADDRESS
+    msg["To"] = ", ".join(TO_ADDRESSES)
+
+    msg.attach(MIMEText(body_text, "plain", "utf-8"))
+
+    if os.path.exists(html_path):
+        with open(html_path, "rb") as f:
+            part = MIMEBase("application", "octet-stream")
+            part.set_payload(f.read())
+        encoders.encode_base64(part)
+        fname = os.path.basename(html_path)
+        part.add_header("Content-Disposition", f'attachment; filename="{fname}"')
+        msg.attach(part)
 
     try:
         with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=30) as server:
             server.ehlo()
             server.starttls()
             server.ehlo()
-            server.login(SMTP_USER, password)
-            server.sendmail(FROM_ADDRESS, [TO_ADDRESS], msg.as_string())
-        ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        print(f"[成功]{' ' + label if label else ''} {ts} → {TO_ADDRESS}")
+            server.login(FROM_ADDRESS, password)
+            server.sendmail(FROM_ADDRESS, TO_ADDRESSES, msg.as_string())
+        ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"[成功]{' ' + label if label else ''} {ts}")
+        print(f"  件名: {subject}")
+        print(f"  送信先: {', '.join(TO_ADDRESSES)}")
+        print(f"  添付: {os.path.basename(html_path) if os.path.exists(html_path) else 'なし'}")
         return True
     except Exception as e:
-        ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print(f"[失敗]{' ' + label if label else ''} {ts} : {e}")
         return False
 
 
 if __name__ == "__main__":
-    import sys
-    label = sys.argv[1] if len(sys.argv) > 1 else ""
-    send_email(label)
+    date_str = sys.argv[1] if len(sys.argv) > 1 else datetime.now().strftime("%Y%m%d")
+    label = sys.argv[2] if len(sys.argv) > 2 else ""
+    password = os.environ.get("SMTP_PASS", "")
+
+    if not password:
+        print("[エラー] 環境変数 SMTP_PASS を設定してください")
+        sys.exit(1)
+
+    send(date_str, password, label)
