@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>週次ブリーフィング 2026/04/13</title>
+<style>
+  :root{
+    --bg:#0f1115; --card:#1a1d24; --card2:#21252e; --line:#2c313c;
+    --text:#e8eaed; --sub:#9aa0aa; --faint:#c5c9d1;
+    --P:#7c6cf0; --E:#4caf50; --S:#e0a020; --T:#3d8bff; --H:#e8602c; --N:#1fb89a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic UI",sans-serif;line-height:1.7;padding:24px;max-width:980px;margin:0 auto}
+  .header{background:var(--card);border-radius:14px;padding:22px 26px;margin-bottom:16px;text-align:center}
+  .header h1{font-size:20px;font-weight:700;margin-bottom:8px}
+  .header .meta{color:var(--sub);font-size:13px}
+  .legend{background:var(--card);border-radius:12px;padding:14px 20px;margin-bottom:18px;display:flex;flex-wrap:wrap;gap:18px;justify-content:center;font-size:13px;color:var(--faint)}
+  .legend .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+  .tabs{display:flex;gap:8px;margin-bottom:18px;border-bottom:1px solid var(--line)}
+  .tab{padding:12px 22px;cursor:pointer;color:var(--sub);font-weight:600;border-bottom:2px solid transparent;user-select:none}
+  .tab.active{color:var(--text);border-bottom-color:var(--T)}
+  .view{display:none}
+  .view.active{display:block}
+  .tl{background:var(--card);border-radius:14px;padding:20px 24px;margin-bottom:16px}
+  .tl-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .tl-head .left{display:flex;align-items:center;gap:12px}
+  .badge{background:#2d3340;color:var(--faint);font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px}
+  .tl-head h2{font-size:17px;font-weight:700}
+  .tl-head .range{color:var(--sub);font-size:13px}
+  .item{display:flex;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
+  .item:last-child{border-bottom:none}
+  .item .mk{flex-shrink:0;width:8px;height:8px;border-radius:50%;margin-top:9px}
+  .item .body{flex:1}
+  .item .ttl{font-weight:600;font-size:15px}
+  .item .ttl .tag{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;font-size:11px;font-weight:700;color:#fff;margin-left:6px;vertical-align:middle}
+  .item .desc{color:var(--faint);font-size:13.5px;margin-top:3px}
+  .detail{border-left:3px solid var(--H);background:var(--card2);border-radius:8px;padding:14px 18px;margin-top:14px}
+  .detail .dt-ttl{color:var(--H);font-weight:700;font-size:14px;margin-bottom:8px}
+  .detail .dt-row{font-size:13.5px;color:var(--faint);padding:4px 0}
+  .detail .dt-row .arr{color:var(--H);margin-right:6px}
+  .expander{display:flex;align-items:center;justify-content:space-between;background:var(--card2);border-radius:8px;padding:11px 18px;margin-top:12px;cursor:pointer;color:var(--sub);font-size:13.5px;user-select:none}
+  .expander .chev{transition:transform .2s}
+  .expander.open .chev{transform:rotate(180deg)}
+  .expander-body{display:none;background:var(--card2);border-radius:0 0 8px 8px;margin-top:-4px;padding:4px 18px 14px}
+  .expander-body.open{display:block}
+  .field{padding:8px 0;border-bottom:1px solid var(--line);font-size:13.5px;color:var(--faint)}
+  .field:last-child{border-bottom:none}
+  .field b{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;font-size:11px;color:#fff;margin-right:8px}
+  .sns-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .sns-card{background:var(--card2);border-radius:10px;padding:14px 16px}
+  .sns-card .pf{font-weight:700;font-size:13px;color:var(--T);margin-bottom:8px}
+  .sns-card .topic{font-size:13px;color:var(--faint);padding:4px 0}
+  .special{background:var(--card);border-radius:14px;padding:20px 24px;margin-bottom:16px}
+  .special h2{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--H)}
+  .core{font-size:14px;padding:6px 0;color:var(--text)}
+  .footer{text-align:center;color:var(--sub);font-size:12px;padding:24px 0}
+  @media(max-width:640px){.sns-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>週次ブリーフィング 2026/04/13（月）｜ 週次〜100年 × PEST+H+N</h1>
+  <div class="meta">Claude Code 自動生成 ｜ 毎週月曜・金曜 6:00 ｜ pubsky@outlook.jp / iam11111234yoshi@gmail.com</div>
+</div>
+
+<div class="legend">
+  <span><span class="dot" style="background:var(--P)"></span>P 政治・外交</span>
+  <span><span class="dot" style="background:var(--E)"></span>E 経済・ビジネス</span>
+  <span><span class="dot" style="background:var(--S)"></span>S 社会・生活</span>
+  <span><span class="dot" style="background:var(--T)"></span>T テクノロジー</span>
+  <span><span class="dot" style="background:var(--H)"></span>H 人間・文化</span>
+  <span><span class="dot" style="background:var(--N)"></span>N 自然・気象</span>
+</div>
+
+<div class="tabs">
+  <div class="tab active" data-view="jp">🇯🇵 日本版</div>
+  <div class="tab" data-view="world">🌍 世界版</div>
+</div>
+
+<!-- ============ 日本版 ============ -->
+<div class="view active" id="jp">
+
+  <div class="tl">
+    <div class="tl-head">
+      <div class="left"><span class="badge">週次</span><h2>直近7日</h2></div>
+      <span class="range">04/07–04/13</span>
+    </div>
+    <div class="item"><div class="mk" style="background:var(--E)"></div><div class="body"><div class="ttl">2026年度本予算が4/7に成立<span class="tag" style="background:var(--E)">E</span></div><div class="desc">過去最大規模・4月成立は11年ぶり。暫定予算を経て年度越えで成立した。</div></div></div>
+    <div class="item"><div class="mk" style="background:var(--E)"></div><div class="body"><div class="ttl">長期金利が一時2.49%に上昇<span class="tag" style="background:var(--E)">E</span></div><div class="desc">1999年2月以来の高水準。財政不安と円安加速の懸念が市場で広がる。</div></div></div>
+    <div class="item"><div class="mk" style="background:var(--E)"></div><div class="body"><div class="ttl">WTI原油が一時105ドル台<span class="tag" style="background:var(--E)">E</span></div><div class="desc">ホルムズ海峡情勢の緊迫が継続し、エネルギーコストが高止まり。</div></div></div>
+    <div class="item"><div class="mk" style="background:var(--P)"></div><div class="body"><div class="ttl">小笠原村が核のごみ文献調査を事実上容認<span class="tag" style="background:var(--P)">P</span></div><div class="desc">首都圏で初。国内のエネルギー・原発政策論争に波紋。</div></div></div>
+    <div class="item"><div class="mk" style="background:var(--H)"></div><div class="body"><div class="ttl">是枝・濱口・深田の3監督がカンヌ最高賞候補に<span class="tag" style="background:var(--H)">H</span></div><div class="desc">日本映画から異例の3名がパルムドール候補に名を連ねる。</div></div></div>
+
+    <div class="detail">
+      <div class="dt-ttl">イラン情勢 詳細（国際）</div>
+      <div class="dt-row"><span class="arr">→</span>2/28 米・イスラエルがイランを攻撃→ホルムズ封鎖</div>
+      <div class="dt-row"><span class="arr">→</span>4/7 トランプが停戦期限を最後通牒。中東情勢が緊迫</div>
+      <div class="dt-row"><span class="arr">→</span>原油はWTI105ドル台へ。日本のエネルギー・物流に直撃</div>
+      <div class="dt-row"><span class="arr">→</span>高市首相がパキスタン首相と電話会談、早期沈静化へ外交努力</div>
+    </div>
+
+    <div class="expander" onclick="toggleExp(this)">
+      <span>PEST+H+N 分野別詳細</span><span class="chev">▼</span>
+    </div>
+    <div class="expander-body">
+      <div class="field"><b style="background:var(--P)">P</b>暫定予算→本予算の年度越し成立。日米首脳会談で安全保障・通商を協議。</div>
+      <div class="field"><b style="background:var(--E)">E</b>春闘5.12%で賃上げ継続。日銀0.75%据え置き。円安159円台。</div>
+      <div class="field"><b style="background:var(--S)">S</b>DV相談98,000件で過去最多。大卒内定率92.0%。</div>
+      <div class="field"><b style="background:var(--T)">T</b>Sakana AI「Namazu」公開。OpenAI「Sora」終了。</div>
+      <div class="field"><b style="background:var(--H)">H</b>WBC2026は侍ジャパン準々決勝敗退。カンヌに日本3監督。</div>
+      <div class="field"><b style="background:var(--N)">N</b>桜が平年より5日早く開花。気候変動シグナル。</div>
+    </div>
+  </div>
+
+  <div class="tl">
+    <div class="tl-head">
+      <div class="left"><span class="badge">月次</span><h2>直近30日の流れ</h2></div>
+      <span class="range">03月〜04月</span>
+    </div>
+    <div class="item"><div class="mk" style="background:var(--E)"></div><div class="body"><div class="ttl">春闘2026最終5.12%、中小も5.03%<span class="tag" style="background:var(--E)">E</span></div><div class="desc">大企業との格差縮小が進む。7年連続5%台維持の公算。</div></div></div>
+    <div class="item"><div class="mk" style="background:var(--T)"></div><div class="body"><div class="ttl">Sakana AIが国産LLM「Namazu」公開<span class="tag" style="background:var(--T)">T</span></div><div class="desc">日本仕様の大規模言語モデル。AI自立化への第一歩。</div></div></div>
+    <div class="item"><div class="mk" style="background:var(--H)"></div><div class="body"><div class="ttl">WBC2026 侍ジャパン準々決勝敗退<span class="tag" style="background:var(--H)">H</span></div><div class="desc">連覇ならず。井端監督の去就に注目集まる。</div></div></div>
+  </div>
+
+  <div class="tl">
+    <div class="tl-head">
+      <div class="left"><span class="badge">半年〜3年</span><h2>大きな転換点</h2></div>
+      <span class="range">2023〜2026</span>
+    </div>
+    <div class="item"><div class="mk" style="background:var(--P)"></div><div class="body"><div class="ttl">高市早苗首相就任（2025年10月）<span class="tag" style="background:var(--P)">P</span></div><div class="desc">日本初の女性首相。維新との連立、経済安保・積極財政を推進。</div></div></div>
+    <div class="item"><div class="mk" style="background:var(--P)"></div><div class="body"><div class="ttl">米・イスラエルがイラン攻撃（2026年2月）<span class="tag" style="background:var(--P)">P</span></div><div class="desc">中東情勢が一変。エネルギー・外交に広範な影響。</div></div></div>
+    <div class="item"><div class="mk" style="background:var(--N)"></div><div class="body"><div class="ttl">能登半島地震（2024年元日）<span class="tag" style="background:var(--N)">N</span></div><div class="desc">最大震度7。復興格差と過疎化が今も続く。</div></div></div>
+  </div>
+
+  <div class="special">
+    <h2>⛽ 特別枠：エネルギー・石油業界</h2>
+    <div class="core">・WTI原油が一時105ドル台。イラン攻撃後の中東緊張が価格を押し上げ</div>
+    <div class="core">・OPEC+が日量20.6万バレルの増産調整。需給緩和を目指すも中東リスクが相殺</div>
+    <div class="expander" onclick="toggleExp(this)"><span>詳細を表示</span><span class="chev">▼</span></div>
+    <div class="expander-body">
+      <div class="field">ブレント原油2026年平均は96ドル/バレル予測（EIA）</div>
+      <div class="field">日本の原油輸入の約8割が中東経由。ホルムズ封鎖リスク継続</div>
+      <div class="field">ガソリン補助金が延長継続、財政を圧迫</div>
+      <div class="field">再エネ比率が2026年度に25%超えへ</div>
+    </div>
+  </div>
+
+  <div class="special">
+    <h2>🤖 特別枠：AI業界</h2>
+    <div class="core">・Claude / GPT / Gemini が性能競争を加速。エージェントAIが主戦場に</div>
+    <div class="core">・OpenAI「Operator」本格展開。ブラウザ自動操作で予約・入力を代行</div>
+    <div class="expander" onclick="toggleExp(this)"><span>詳細を表示</span><span class="chev">▼</span></div>
+    <div class="expander-body">
+      <div class="field">Sakana AI「Namazu」α版公開。DeepSeek-V3.1ベースの日本仕様LLM</div>
+      <div class="field">ファミマが全国1.64万店に生成AIを実務導入</div>
+      <div class="field">政府AI基本計画の官民投資ロードマップを2026年春に取りまとめ</div>
+      <div class="field">IDC：日本のAI市場 2024年1.34兆円→2029年4.19兆円</div>
+    </div>
+  </div>
+
+  <div class="tl">
+    <div class="tl-head"><div class="left"><span class="badge">SNS</span><h2>今週のトレンド</h2></div></div>
+    <div class="sns-grid">
+      <div class="sns-card"><div class="pf">X（旧Twitter）</div><div class="topic">・AI生成イラスト疑惑が大炎上</div><div class="topic">・新幹線マナー動画が議論に発展</div></div>
+      <div class="sns-card"><div class="pf">Instagram</div><div class="topic">・カンヌ3監督への称賛投稿が拡散</div><div class="topic">・日本映画ルネサンスの声</div></div>
+      <div class="sns-card"><div class="pf">TikTok</div><div class="topic">・子連れ旅行マナータグがバイラル化</div><div class="topic">・海外でも拡散</div></div>
+      <div class="sns-card"><div class="pf">YouTube</div><div class="topic">・WBC振り返り動画が急上昇</div><div class="topic">・予算成立解説が一斉投稿</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============ 世界版 ============ -->
+<div class="view" id="world">
+
+  <div class="tl">
+    <div class="tl-head">
+      <div class="left"><span class="badge">週次</span><h2>This Week</h2></div>
+      <span class="range">04/07–04/13</span>
+    </div>
+    <div class="item"><div class="mk" style="background:var(--P)"></div><div class="body"><div class="ttl">米・イラン情勢が緊迫、停戦交渉が焦点<span class="tag" style="background:var(--P)">P</span></div><div class="desc">ホルムズ海峡の通航制限が世界のエネルギー市場を揺さぶる。</div></div></div>
+    <div class="item"><div class="mk" style="background:var(--E)"></div><div class="body"><div class="ttl">原油WTIが105ドル台、世界的インフレ再燃懸念<span class="tag" style="background:var(--E)">E</span></div><div class="desc">各国中銀が利下げ路線の見直しを迫られる局面に。</div></div></div>
+    <div class="item"><div class="mk" style="background:var(--T)"></div><div class="body"><div class="ttl">AIエージェント競争が本格化<span class="tag" style="background:var(--T)">T</span></div><div class="desc">OpenAI・Google・Anthropicが自律型AIで主導権争い。</div></div></div>
+    <div class="item"><div class="mk" style="background:var(--P)"></div><div class="body"><div class="ttl">トランプ関税政策が世界貿易に影<span class="tag" style="background:var(--P)">P</span></div><div class="desc">各国が対米投資・市場開放で交渉。保護主義が再加速。</div></div></div>
+
+    <div class="detail">
+      <div class="dt-ttl">Iran Situation — Detail</div>
+      <div class="dt-row"><span class="arr">→</span>Feb 28: US/Israel strike Iran, Strait of Hormuz disrupted</div>
+      <div class="dt-row"><span class="arr">→</span>Apr 7: Trump issues ultimatum on ceasefire deadline</div>
+      <div class="dt-row"><span class="arr">→</span>Oil surges to WTI $105, global inflation fears return</div>
+      <div class="dt-row"><span class="arr">→</span>Pakistan-mediated talks expected to begin</div>
+    </div>
+
+    <div class="expander" onclick="toggleExp(this)"><span>PEST+H+N 分野別詳細</span><span class="chev">▼</span></div>
+    <div class="expander-body">
+      <div class="field"><b style="background:var(--P)">P</b>米中対立・トランプ通商政策・中東情勢が世界秩序を再編。</div>
+      <div class="field"><b style="background:var(--E)">E</b>原油高でインフレ再燃。各国中銀の金融政策が分岐。</div>
+      <div class="field"><b style="background:var(--S)">S</b>移民・格差・ポピュリズムが各国の政治を左右。</div>
+      <div class="field"><b style="background:var(--T)">T</b>AIエージェント・半導体・AI主権が技術覇権の核心。</div>
+      <div class="field"><b style="background:var(--H)">H</b>カンヌ映画祭にアジア勢台頭。スポーツ国際大会が活況。</div>
+      <div class="field"><b style="background:var(--N)">N</b>気候変動による異常気象が世界各地で頻発。</div>
+    </div>
+  </div>
+
+  <div class="tl">
+    <div class="tl-head">
+      <div class="left"><span class="badge">月次〜3年</span><h2>大きな潮流</h2></div>
+      <span class="range">2023〜2026</span>
+    </div>
+    <div class="item"><div class="mk" style="background:var(--P)"></div><div class="body"><div class="ttl">トランプ再政権と国際協調の後退<span class="tag" style="background:var(--P)">P</span></div><div class="desc">「米国が世界秩序を支える時代の終わり」を宣言、保護主義が加速。</div></div></div>
+    <div class="item"><div class="mk" style="background:var(--T)"></div><div class="body"><div class="ttl">生成AIが社会実装期へ<span class="tag" style="background:var(--T)">T</span></div><div class="desc">業務・教育・医療で本格導入。AI雇用代替が現実の課題に。</div></div></div>
+    <div class="item"><div class="mk" style="background:var(--E)"></div><div class="body"><div class="ttl">インフレ・金利上昇時代への回帰<span class="tag" style="background:var(--E)">E</span></div><div class="desc">ゼロ金利の終焉。世界的な物価構造の転換点。</div></div></div>
+  </div>
+
+  <div class="tl">
+    <div class="tl-head"><div class="left"><span class="badge">SNS</span><h2>Global Trends</h2></div></div>
+    <div class="sns-grid">
+      <div class="sns-card"><div class="pf">X (Global)</div><div class="topic">・Iran-US ceasefire debate trending</div><div class="topic">・AI agent demos go viral</div></div>
+      <div class="sns-card"><div class="pf">YouTube</div><div class="topic">・Oil price explainer videos surge</div><div class="topic">・Cannes nominee reactions</div></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">このブリーフィングは Claude Code によって自動生成されました。<br>情報は収集時点のものです。最新情報は各一次情報源をご確認ください。</div>
+
+<script>
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+      document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.view).classList.add('active');
+    });
+  });
+  function toggleExp(el){
+    el.classList.toggle('open');
+    var body = el.nextElementSibling;
+    if(body && body.classList.contains('expander-body')){
+      body.classList.toggle('open');
+    }
+  }
+</script>
+
+</body>
+</html>
